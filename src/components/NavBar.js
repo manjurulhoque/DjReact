@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, NavLink} from 'react-router-dom';
 import * as actions from '../store/actions/auth';
 
 class NavBar extends React.Component {
@@ -23,10 +23,10 @@ class NavBar extends React.Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             <li>
-                                <a href="/">Home</a>
+                                <NavLink to="/">Home</NavLink>
                             </li>
                             <li>
-                                <a href="/create-article">Create Article</a>
+                                <NavLink to="/create">Create Article</NavLink>
                             </li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
@@ -36,7 +36,7 @@ class NavBar extends React.Component {
                                         <a href="#" onClick={this.props.onLogout}>Logout</a>
                                     </li> :
                                     <li>
-                                        <a href="/login">Login</a>
+                                        <NavLink to="/login">Login</NavLink>
                                     </li>
                             }
                         </ul>
