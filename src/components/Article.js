@@ -8,7 +8,10 @@ const Article = ({article}) => {
                 <div className="row">
                     <div className="col-sm-6 col-md-4">
                         <figure>
-                            <img className="img-responsive" style={{height: 200, width: 200}} src="https://i.pinimg.com/236x/26/13/b9/2613b979bc24e63d4ee935d007b1e003--create-a-cartoon-x.jpg"/>
+                            {
+                                article.photo == null ? <img className="img-responsive" style={{height: 200, width: 200}} src="https://i.pinimg.com/236x/26/13/b9/2613b979bc24e63d4ee935d007b1e003--create-a-cartoon-x.jpg"/> :
+                                <img className="img-responsive" style={{height: 200, width: 200}} src={`${article.photo}`}/>
+                            }
                         </figure>
                     </div>
                     <div className="col-sm-6 col-md-8">

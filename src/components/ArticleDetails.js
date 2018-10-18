@@ -22,7 +22,7 @@ class ArticleDetails extends React.Component {
         const id = this.props.match.params.id;
 
         axios.delete(`http://127.0.0.1:8000/api/${id}`)
-            .then(res => console.log(res))
+            .then(res => this.props.history.push('/'))
             .catch(err => console.log(err))
     };
 

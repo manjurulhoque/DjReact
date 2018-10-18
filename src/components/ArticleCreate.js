@@ -5,14 +5,21 @@ class ArticleCreate extends Component {
 
     state = {
         title: '',
-        content: ''
+        content: '',
+        photo: '',
+        imagePreviewUrl: ''
     };
 
     onSubmit = (e) => {
         e.preventDefault();
 
-        axios.post('http://127.0.0.1:8000/api/', {title: this.state.title, content: this.state.content})
-            .then(res => console.log(res))
+        const formData = new FormData();
+        formData.append('title', this.state.title);
+        formData.append('content', this.state.content);
+        formData.append('photo', this.state.photo);
+
+        axios.post('http://127.0.0.1:8000/api/', formData)
+            .then(res => this.props.history.push('/'))
             .catch(err => console.log(err))
     };
 
@@ -20,7 +27,30 @@ class ArticleCreate extends Component {
         this.setState({[e.target.name]: e.target.value});
     };
 
+    onFileChange = e => {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                photo: file,
+                imagePreviewUrl: reader.result
+            });
+        }
+
+        reader.readAsDataURL(file);
+    };
+
     render() {
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl) {
+            $imagePreview = (<img src={imagePreviewUrl} />);
+        } else {
+            $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+        }
         return (
             <div className="container">
                 <div className="row">
@@ -45,6 +75,13 @@ class ArticleCreate extends Component {
                                     onChange={this.onChange}
                                     className="form-control"
                                     placeholder="Enter some content..."></textarea>
+                            </div>
+
+                            <div className="form-group">
+                                <input type="file" accept="image/*" onChange={(e) => this.onFileChange(e)} required className="form-control" />
+                                <div className="imgPreview">
+                                    {$imagePreview}
+                                </div>
                             </div>
                             <button type="submit" className="btn btn-success">Save</button>
                         </form>
