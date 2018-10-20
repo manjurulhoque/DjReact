@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { getCategories } from '../store/actions/categories';
 
 class ArticleCreate extends Component {
+
+    componentDidMount() {
+        //this.props.getCategories();
+        //this.state.categories = this.props.categories;
+    }
 
     state = {
         title: '',
         content: '',
         photo: '',
-        imagePreviewUrl: ''
+        imagePreviewUrl: '',
+        categories: [],
+        category_id: null
     };
 
     onSubmit = (e) => {
@@ -17,6 +26,7 @@ class ArticleCreate extends Component {
         formData.append('title', this.state.title);
         formData.append('content', this.state.content);
         formData.append('photo', this.state.photo);
+        formData.append('category', this.state.category_id);
 
         axios.post('http://127.0.0.1:8000/api/', formData)
             .then(res => this.props.history.push('/'))
@@ -26,6 +36,10 @@ class ArticleCreate extends Component {
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     };
+
+    onChangeSelect = (e) => {
+        this.setState({category_id: e.target.value});
+    }
 
     onFileChange = e => {
         e.preventDefault();
@@ -51,6 +65,10 @@ class ArticleCreate extends Component {
         } else {
             $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
         }
+        const { categories } = this.props.categories;
+        const categoriesOptions = categories.map(category => 
+            <option key={category.id} value={category.id}>{category.title}</option>
+        )
         return (
             <div className="container">
                 <div className="row">
@@ -65,6 +83,13 @@ class ArticleCreate extends Component {
                                     onChange={this.onChange}
                                     className="form-control"
                                     placeholder="Enter title..."/>
+                            </div>
+
+                            <div className="form-group">
+                                <select name="category_id" required onChange={this.onChangeSelect} className="form-control">
+                                    <option disabled value="">Choose category</option>
+                                    {categoriesOptions}
+                                </select>
                             </div>
 
                             <div className="form-group">
@@ -92,4 +117,8 @@ class ArticleCreate extends Component {
     }
 };
 
-export default ArticleCreate;
+const mapStateToProps = state => ({
+    categories: state.categories
+});
+
+export default connect(mapStateToProps, { getCategories })(ArticleCreate);

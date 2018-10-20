@@ -21,9 +21,7 @@ const Article = ({article}) => {
                         <h4>{article.title}</h4>
                         <p>{article.content}</p>
                         <section>
-                            <i className="glyphicon glyphicon-folder-open"></i>Bootstrap
-                            <i className="glyphicon glyphicon-user"></i>RaymondDragon
-                            <i className="glyphicon glyphicon-calendar"></i>1395/12/21
+                            <i className="glyphicon glyphicon-folder-open"></i>{article.category.title}
                             <Link className="btn btn-default btn-sm pull-right" to={`/details/${article.id}`}>More ...</Link>
                         </section>
                     </div>
