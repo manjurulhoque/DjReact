@@ -1,5 +1,8 @@
 Django + Reactjs with authentication
 
+## Screenshot
+<img src="screenshots/one.png" height="400">
+
 ```
 
 git clone https://github.com/manjurulhoque/DjReact.git
