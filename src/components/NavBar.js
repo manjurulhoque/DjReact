@@ -11,10 +11,15 @@ class NavBar extends React.Component {
         this.props.getCategories();
     }
 
+    onChange = (e) => {
+        let id = e.currentTarget.dataset.id;
+        this.props.history.push(`/categories/${id}`);
+    };
+
     render() {
         const { categories } = this.props.categories;
         const categoriesMenu = categories.map(category => 
-            <li key={category.id}><a href="#">{category.title}</a></li>
+            <li key={category.id} data-id={category.id} onClick={this.onChange}><a href="">{category.title}</a></li>
         )
         return (
             <nav className="navbar navbar-inverse">
@@ -45,7 +50,7 @@ class NavBar extends React.Component {
                                     Categories <span className="caret"></span>
                                 </a>
 
-                                <ul className="dropdown-menu" name="category" onChange={this.onChange}>
+                                <ul className="dropdown-menu" name="category">
                                     {categoriesMenu}
                                 </ul>
                             </li>
